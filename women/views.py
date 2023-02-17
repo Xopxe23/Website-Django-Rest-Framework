@@ -3,15 +3,26 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import GenericViewSet
 
-from .models import Women
+from .models import Women, Category
 from .serializers import WomenSerializer
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
+from rest_framework.decorators import action
 
 
-class WomenViewSet(viewsets.ModelViewSet):
+class WomenViewSet(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
     serializer_class = WomenSerializer
     queryset = Women.objects.all()
+
+    @action(methods=['get'], detail=True)
+    def category(self, request):
+        cats = Category.objects.all()
+        return Response({'cats': [c.name for c in cats]})
 
 
 # class WomenAPIList(generics.ListCreateAPIView):
