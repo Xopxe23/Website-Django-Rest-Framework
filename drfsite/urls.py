@@ -18,14 +18,15 @@ from django.urls import path, include
 from rest_framework.routers import SimpleRouter, DefaultRouter
 from women.views import *
 
-router = DefaultRouter()
-router.register(r'women', WomenViewSet)
+# router = DefaultRouter()
+# router.register(r'women', WomenViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls))   # http://127.0.0.1:8000/api/v1/women
-    # path('api/v1/womenlist/', WomenAPIList.as_view()),
-    # path('api/v1/womenlist/<int:pk>', WomenAPIUpdate.as_view()),
+    # path('api/v1/', include(router.urls))   # http://127.0.0.1:8000/api/v1/women
+    path('api/v1/women/', WomenAPIList.as_view()),
+    path('api/v1/women/<int:pk>', WomenAPIUpdate.as_view()),
+    path('api/v1/womendelete/<int:pk>', WomenAPIDestroyView.as_view())
 ]
 
